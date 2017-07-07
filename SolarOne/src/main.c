@@ -82,13 +82,13 @@ soc stateOfCharge;
 // 0 = no output
 // 1 = essentials (states)
 // 2 = call trace
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 #define DEBUG_TRACE_DELAY 10
 
 // delays (ms)
 #define NUM_SOD_INIT_CHECK_DELAY 10
 #define BATTERY_STABILIZE_DELAY 10
-#define DISPLAY_UPDATE_DELAY 20					
+#define DISPLAY_UPDATE_DELAY 5
 
 // counters (minutes)
 #define DISPLAY_DURATION 1  
@@ -283,10 +283,14 @@ int main(void){
 
 					if(IS_CHARGED()){
 
+
 						ENABLE_DISPLAY();
 						CONNECT_LED_DRIVERS();
 						// display_init(); 
 						CONNECT_LEDS();
+
+						// initialize leds
+						display_init();
 
 						// initialize countdown timer seconds
 						displayCount = (DISPLAY_DURATION*60)-1;
@@ -297,8 +301,10 @@ int main(void){
 				}
 
 				while(displayEnabled){
-					update_display();
+					
+					write_display(); // updates and writes...
 					_delay_ms(DISPLAY_UPDATE_DELAY);
+
 				}
 
 				if(!watchdog_set){
@@ -816,6 +822,10 @@ void sculpture_init(void){
 
 	// TODO: Consider uncommenting below to improve reliability
 	update_state_of_day();
+
+
+	// allocate memory for led structs and brightness buffer
+	setup_display();
 
 	// Start up is an automatic transition
 	SET_TRANSTION();

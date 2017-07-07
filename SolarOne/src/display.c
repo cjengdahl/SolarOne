@@ -16,7 +16,7 @@ void write_display(void){
 
 		update_display();
 		spi_write(LEDBuffer, NUM_DRIVERS);
-		_delay_ms(UPDATE_DELAY);
+		// _delay_ms(UPDATE_DELAY);
 }
 
 void setup_display(void){
@@ -32,8 +32,7 @@ void display_init(void){
 
 	// initialize spi bus
 	spi_init();
-	display_init();
-	spi_write(LEDBuffer, NUM_DRIVERS);
+	// display_init();
 
 	// Create array to hold randomly selected starting points
 	int8_t randSelect[ACTIVE_LEDS];
@@ -99,6 +98,8 @@ void display_init(void){
 		}
 
 	}
+
+	spi_write(LEDBuffer, NUM_DRIVERS);
 
 
 }
@@ -232,12 +233,12 @@ void update_display(void){
 
 				// if lowest brightness has been reached go to next stage
 				if((*activeLEDs[i]).fadeLevel <= 0){
+					*((*activeLEDs[i]).brightness) = 0x0000;
 					(*activeLEDs[i]).stage = terminated;
 				}
 
 				else{
 					*((*activeLEDs[i]).brightness) = (*activeLEDs[i]).fadeOutTable[(*activeLEDs[i]).fadeLevel];
-					//set_brightness(i, LEDs[i].fadeInTable[LEDs[i].fadeLevel], LEDBuffer);
 					((*activeLEDs[i]).fadeLevel)--;
 				}
 
@@ -262,3 +263,5 @@ uint8_t PRNG (uint8_t min, uint8_t max){
 	return value;
 
 }
+
+

@@ -17,8 +17,8 @@
 #endif
 #define NUM_DRIVERS 2								// Number of LED driver chips that are being used. Chip being used is ________
 #define TOTAL_CHANNELS (12 * NUM_DRIVERS) 			// Total number of LEDs that are going to be active
-#define ACTIVE_LEDS 4								// The number of flys that will be active at any given time
-#define UPDATE_DELAY 20								// Delay between updates in milliseconds
+#define ACTIVE_LEDS 12								// The number of flys that will be active at any given time
+// #define UPDATE_DELAY 20								// Delay between updates in milliseconds
 
 
 // Libs
