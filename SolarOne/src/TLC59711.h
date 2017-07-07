@@ -15,7 +15,8 @@
 // Fucntion Prototypes
 void set_brightness(uint8_t channel, uint16_t brightness, uint16_t *pwmBuffer);
 void spi_init(void);
-void spi_write(uint16_t *pwmBuffer, uint8_t numDrivers);
+// void spi_write(uint16_t *pwmBuffer, uint8_t numDrivers);
+void spi_write(uint16_t *pwmBuffer, uint8_t numDrivers, uint8_t blank);
 void transfer(uint32_t data); 
 
 // Constants

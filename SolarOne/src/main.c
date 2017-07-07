@@ -39,6 +39,7 @@ uint8_t watchdog_set;
 uint8_t solarPanelsConnected;
 uint8_t ledDriversConnected;
 uint8_t ledsConnected;
+uint8_t ledsCleared;
 uint8_t displayEnabled;
 uint8_t micro_intialized;
 uint16_t displayCount;
@@ -227,6 +228,7 @@ int main(void){
 				
 				if(transition){
 
+
 					if(DEBUG_MODE > 0){
 						print("N->D\n\r");	
 					}
@@ -235,6 +237,12 @@ int main(void){
 					
 					if(!solarPanelsConnected){
 						CONNECT_SOLAR_PANELS();
+					}
+
+
+					if(!ledsCleared){
+						clear_leds();
+						ledsCleared = 1;
 					}
 
 					if(ledsConnected){
@@ -291,6 +299,7 @@ int main(void){
 
 						// initialize leds
 						display_init();
+						ledsCleared = 0;
 
 						// initialize countdown timer seconds
 						displayCount = (DISPLAY_DURATION*60)-1;
@@ -307,11 +316,17 @@ int main(void){
 
 				}
 
+				if(!ledsCleared){
+					clear_leds();
+					ledsCleared = 1;
+				}
+
 				if(!watchdog_set){
 					set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 					sleep_enable();
 					start_watchdog_timer();
 				}
+
 
 				// if display is disabled, go to sleep
 				sleep_cpu();
@@ -393,42 +408,6 @@ ISR(TIMER1_COMPA_vect){
 
 }
 
-///***************************************
-//*  Function: updateDisplay
-//*
-//***************************************/
-//
-//
-//void update_display(void){
-//
-//	// DEBUG
-//	if (DEBUG_MODE == 2){
-//		print("update_display()\n\r");
-//	}
-//
-//
-//	// TODO: Replace this function with actual call
-//
-//
-//}
-
-
-///***************************************
-//*  Function: display_init
-//*
-//***************************************/
-//
-//
-//void display_init(){
-//
-//	if (DEBUG_MODE == 2){
-//		print("display_init()\n\r");
-//	}
-//
-//	// intialize counter and setup timer interrupt to trigger once a second
-//
-//
-//}
 
 /***************************************
 *  Function:  update_state_of_charge

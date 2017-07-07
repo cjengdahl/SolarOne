@@ -15,7 +15,7 @@
 void write_display(void){
 
 		update_display();
-		spi_write(LEDBuffer, NUM_DRIVERS);
+		spi_write(LEDBuffer, NUM_DRIVERS,0);
 		// _delay_ms(UPDATE_DELAY);
 }
 
@@ -99,7 +99,7 @@ void display_init(void){
 
 	}
 
-	spi_write(LEDBuffer, NUM_DRIVERS);
+	spi_write(LEDBuffer, NUM_DRIVERS, 1);
 
 
 }
@@ -255,6 +255,22 @@ void update_display(void){
 	}
 
 }
+
+
+
+void clear_leds(void){
+
+	for(uint8_t i = 0; i<TOTAL_CHANNELS; i++){
+			LEDBuffer[i] = 0x0000;
+
+	}
+
+	// memset(LEDBuffer, 0, sizeof(uint16_t)*TOTAL_CHANNELS);
+	spi_write(LEDBuffer, NUM_DRIVERS, 1);
+
+}
+
+
 
 
 uint8_t PRNG (uint8_t min, uint8_t max){

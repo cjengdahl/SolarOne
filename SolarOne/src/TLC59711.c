@@ -27,13 +27,24 @@ void spi_init(void){
 	DDRB = (1 << DDB4) | (1 << DDB5);
 }
 
-void spi_write(uint16_t *pwmBuffer, uint8_t numDrivers){
+void spi_write(uint16_t *pwmBuffer, uint8_t numDrivers, uint8_t blank){
 	uint32_t command;
 	command = 0x25;		// TLC59711 Magic Number
 
 	command <<= 5;		// Function control bits.
 	//command |= 0x16;	// OUTTMG = 1, EXTGCK = 0, TMGRST = 1, DSPRPT = 1, BLANK = 0 -> 0x16
-	command |= 0x06;	// OUTTMG = 0, EXTGCK = 0, TMGRST = 1, DSPRPT = 1, BLANK = 0 -> 0x06 Attempt to reduce EMI
+
+
+	//  display outputs enabled
+	if(!blank){
+		command |= 0x06;	// OUTTMG = 0, EXTGCK = 0, TMGRST = 1, DSPRPT = 1, BLANK = 0 -> 0x06 Attempt to reduce EMI
+	}
+
+	// outputs disabled
+	else{
+		command |= 0x07;	// OUTTMG = 0, EXTGCK = 0, TMGRST = 1, DSPRPT = 1, BLANK = 0 -> 0x06 Attempt to reduce EMI
+	}
+
 
 	command <<= 7;		// Set RGB brightness levels 
 	command |= BC_R;

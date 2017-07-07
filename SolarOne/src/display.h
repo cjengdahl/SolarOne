@@ -29,6 +29,7 @@
 #include <util/delay_basic.h>
 #include <stdbool.h>
 #include "TLC59711.h"
+#include <string.h>
 
 
 static const uint16_t fade60[61] = {0x0000, 0x0442, 0x0884, 0x0CC6, 0x1108, 0x154A,
@@ -196,6 +197,7 @@ led make_led(uint8_t index);
 void refresh_led(led *deadLED);
 void replace_led(led **deadLED, led **freshLED);
 uint8_t PRNG (uint8_t min, uint8_t max);
+void clear_leds(void);
 
 
 #endif // DISPLAY_H
